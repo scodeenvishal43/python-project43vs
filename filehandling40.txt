@@ -1,0 +1,276 @@
+os module:
+===========
+os.getcwd()
+------------
+current working directory
+
+os.chdir(path)
+
+it will change working dir 
+
+
+os.mkdir(path)
+os.rmdir(path)
+
+for multiple dirs:
+os.makedirs('dir1/dir2')
+
+
+files = os.listdir(r"C:\Users\kanti\OneDrive\Desktop\sample")
+for file in files:
+    if file.endswith('.txt'):
+        print(file)
+		
+import os
+
+os.system("python C:\\Users\\kanti\\OneDrive\\Desktop\\sample\\test.py")
+
+File Handling: IMP
+==============
+
+
+1.Temp
+RAM 
+2.Permenant
+
+small amount of data : files
+
+medium : database
+
+large : database,BigData
+
+
+File :
+
+1.Text file
+============
+open  --> readable text 
+txt , csv (comma seperated values),tsv (tab seperated values)
+
+
+2.Binary File
+==============
+open --? Binary data 
+third party application
+decode --> content display
+
+Img,pdf,xlsx,mp3,mp4
+
+
+Operation:
+
+fp = open(filename,mode)
+
+filename  -  pdf.txt ,
+
+mode:
+-----
+read - r
+write -w
+append -a
+read then write -- > r+
+write then read --> w+
+append then read -->a+
+exclusive mode --- > x
+
+
+r - mode:
+==========
+
+
+fp = open('test.txt','r')  # defualt -- read
+
+1.file should be present at given location if not then it will return Error: FileNotFoundError
+
+fp.read() --> to read complete content from file 
+fp.read(n) --> to read number of char
+fp.readlines()--> list of lines return
+fp.readline() --> to fetch single line
+
+w - write:
+==========
+
+1.if file present at given location then it will override the content
+2.if file not present then it will create file then write content
+
+
+fp.write("content")
+fp.writelines([list of lines])
+fp.writable()
+fp= open('ttt.txt','w')
+print(fp.writable()) # status
+
+
+email_list = []
+
+fp = open("pdffile.txt")
+data = fp.readlines()
+for e in data:
+    temp = e.split()
+    for email in temp:
+        if email.endswith('.com'):
+            email_list.append('\n')
+            email_list.append(email)
+else:
+    print("All email fetched..")
+fp1 = open('emaillist.txt','w')
+fp1.writelines(email_list)
+
+
+a - append
+==========
+1.if file present at given location then it will add/append the content
+2.if file not present then it will create file then add content
+
+fp.write("content")
+fp.writelines([list of lines])
+fp.writable()
+
+r+ -  read then write 
+
+r -  methods
+
+w - methods
+
+w+ -- write then read 
+
+fp = open('testfile.txt','w+')
+fp.write("this code written by python code")
+fp.seek(0)
+data = fp.read()
+print(data)
+
+a+ --append then read
+fp = open('testfile.txt','a+')
+old_location = fp.tell()
+fp.write("new content by python code")
+fp.seek(old_location)
+data = fp.read()
+print(data)
+
+seek : move file pointer
+
+tell : return current pointer location
+
+img :  pillow library
+
+pdf : pypdf2
+
+excel : openxlr
+
+
+normal open vs with open
+========================
+with open('testfile.txt','r') as fp:
+    data = fp.read()
+    print(data)
+    print(fp.closed)
+print(fp.closed)
+
+
+=========================================================
+
+file exist then read
+file exist then create file wrtite the content
+
+dir file --> silver.txt
+
+content copy -- current location
+
+file move ---> from remote location to current location
+
+file1,file2, file3
+
+combine --> file1+file2+file3
+
+file -- > number of char
+		  number of word 
+		  number of lines
+		
+file --> line1,line3,line3
+		write --> line3,line2,line1
+		
+dir --> txt --> c all files should be rename to 1.filename,2.filename
+
+dir1 ---> all content dir 2 copy
+
+dir1  ---> Python seq execute all python file
+
+============================================================================
+
+csv file :
+
+
+comma separated values
+
+csv vs excel
+
+data csv -- small amount of memory
+
+csv -- csv
+excel -- openxlr,
+pdf -- pypdf2
+img -  pillow ,cv2 
+
+
+import csv
+with open('emp_data.csv') as fp:
+    r = csv.reader(fp)
+    data = list(r)
+    for row in data:
+        print(row)
+		
+import csv
+with open('test.csv','w',newline='') as fp:
+    w = csv.writer(fp)
+    w.writerow(['prdid','prdname','prdqnty'])
+    w.writerows([[101,'copper',34],[102,'gold',5345]])
+
+
+
+csv --> email fetch and name csv --> dump/save
+
+csv   --> email -- email send 
+
+
+
+
+import csv, smtplib, ssl
+
+message = """Subject: Your grade
+
+Hi {name}, your grade is {grade}"""
+from_address = "my@gmail.com"
+password = input("Type your password and press enter: ")
+
+context = ssl.create_default_context()
+with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+    server.login(from_address, password)
+    with open("contacts_file.csv") as file:
+        reader = csv.reader(file)
+        next(reader)  # Skip header row
+        for name, email, grade in reader:
+            server.sendmail(
+                from_address,
+                email,
+                message.format(name=name,grade=grade),
+            )
+
+gmail --> secuirty -- rediffmail
+yahoo  
+
+
+Zip file 
+
+
+from zipfile import *
+
+with ZipFile("sample1.zip","w",ZIP_DEFLATED) as fp:
+    fp.write("test.txt")
+    fp.write("test2.txt")
+    fp.write("test3.txt")
+	
+from zipfile import *
+
+with ZipFile("sample1.zip",'r') as fp:
+    fp.extractall(".")
